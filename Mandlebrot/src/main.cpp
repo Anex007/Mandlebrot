@@ -132,11 +132,11 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
 	glEnableVertexAttribArray(0);
 
-	Shader shader("./src/mandle.vs", "./src/mandle.fs");
-	shader.Bind();
-	shader.UploadUniform2d("resolution", WIDTH_F, HEIGHT_F);
-	shader.UploadUniform2d("center", center.x, center.y);
-	shader.UploadUniform1d("range", range);
+	Shader* shader = new Shader("./Mandlebrot/src/mandle.vs", "./Mandlebrot/src/mandle.fs");
+	shader->Bind();
+	shader->UploadUniform2d("resolution", WIDTH_F, HEIGHT_F);
+	shader->UploadUniform2d("center", center.x, center.y);
+	shader->UploadUniform1d("range", range);
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -145,15 +145,15 @@ int main()
 
 		// Object draw call
 		glBindVertexArray(vao);
-		shader.Bind();
+		shader->Bind();
 
 		if (update) {
-			shader.UploadUniform2d("center", center.x, center.y);
-			shader.UploadUniform1d("range", range);
+			shader->UploadUniform2d("center", center.x, center.y);
+			shader->UploadUniform1d("range", range);
 			update = false;
 		}
 
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
