@@ -1,3 +1,6 @@
 bin/
 bin-int/
 vendor/
+Makefile
+.vs/
+Mandlebrot.sln
