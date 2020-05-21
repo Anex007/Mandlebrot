@@ -9,7 +9,7 @@ in vec4 gl_FragCoord;
 out vec4 FragColor;
 
 //#define MAX_ITER 4096
-#define MAX_ITER 4096
+#define MAX_ITER 512
 
 dvec2 sqr(dvec2 a)
 {
@@ -42,8 +42,8 @@ void main()
 
 	//c.x = map(double(gl_FragCoord.x), 0.0, resolution.x, center.x - off, center.x + off);
 	//c.y = map(double(gl_FragCoord.y), 0.0, resolution.y, center.y - off, center.y + off);
-	c.x = (center.x - off) + double(gl_FragCoord.x) * range / resolution.x;
-	c.y = (center.y - off) + double(gl_FragCoord.y) * range / resolution.y;
+	c.x = (center.x - off) + ((range * double(gl_FragCoord.x)) / resolution.x);
+	c.y = (center.y - off) + ((range * double(gl_FragCoord.y)) / resolution.y);
 	int n;
 
 	for (n = 0; n <= MAX_ITER; n++) {
@@ -52,8 +52,8 @@ void main()
 			break;
 	}
 
-    vec4 out_color = vec4(float(n & 0xf), float((n >> 4) & 0xf), float((n >> 8) & 0xf), 15.0);
-    out_color /= 15.0;
+    vec4 out_color = vec4(float(n & 0x7), float((n >> 3) & 0x7), float((n >> 6) & 0x7), 7.0);
+    out_color /= 7.0;
 
 	FragColor = out_color;
 }

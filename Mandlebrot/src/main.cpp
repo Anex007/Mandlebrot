@@ -78,6 +78,27 @@ void mouse_scroll(GLFWwindow* window, double xoff, double yoff)
 	}
 }
 
+void mouse_button_cb(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button != GLFW_MOUSE_BUTTON_LEFT)   return;
+
+    static double xpos_pressed = 0.0;
+    static double ypos_pressed = 0.0;
+
+    if (action == GLFW_PRESS) {
+        glfwGetCursorPos(window, &xpos_pressed, &ypos_pressed);
+    } else {
+        double xpos_released;
+        double ypos_released;
+        glfwGetCursorPos(window, &xpos_released, &ypos_released);
+        // this means that the action was release, calculate and update the translation
+        double translatedx = (2.0 * (xpos_released - xpos_pressed) / (double)WIDTH_F);
+        double translatedy = (2.0 * (ypos_released - ypos_pressed) / (double)HEIGHT_F);
+        center -= glm::dvec2(translatedx * range, -translatedy * range);
+        update = true;
+    }
+}
+
 int main()
 {
 	if (!glfwInit()) {
@@ -106,6 +127,7 @@ int main()
 
 	glViewport(0, 0, WIDTH, HEIGHT);
 	glfwSetFramebufferSizeCallback(window, framebuffer_resize);
+    glfwSetMouseButtonCallback(window, mouse_button_cb);
 	//glfwSetCursorPosCallback(window, mouse_moved);
 	glfwSetScrollCallback(window, mouse_scroll);
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
