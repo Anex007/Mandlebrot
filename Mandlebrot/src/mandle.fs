@@ -40,8 +40,6 @@ void main()
     dvec2 z = dvec2(0.0);
     dvec2 c;
 
-    //c.x = map(double(gl_FragCoord.x), 0.0, resolution.x, center.x - off, center.x + off);
-    //c.y = map(double(gl_FragCoord.y), 0.0, resolution.y, center.y - off, center.y + off);
     c.x = (center.x - off) + ((range * double(gl_FragCoord.x)) / resolution.x);
     c.y = (center.y - off) + ((range * double(gl_FragCoord.y)) / resolution.y);
     int n;
