@@ -1,6 +1,7 @@
-bin/
-bin-int/
+**/bin/
+**/bin-int/
 vendor/
-Makefile
+**/Makefile
 .vs/
-Mandlebrot.sln
+**/*.sln
+**/*.vcxproj

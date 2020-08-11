@@ -140,7 +140,7 @@ int main()
         return -1;
     }
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
+    glfwSwapInterval(0); // change from 1 to 0 to test perf
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD!" << std::endl;
@@ -183,6 +183,9 @@ int main()
     shader->UploadUniform2d("center", center.x, center.y);
     shader->UploadUniform1d("range", range);
 
+    double oldTime = glfwGetTime();
+    unsigned int frames = 0;
+
     while (!glfwWindowShouldClose(window)) {
 
         glClearColor(0.2f, 0.18f, 0.2f, 1.0f);
@@ -202,6 +205,16 @@ int main()
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        // FPS Counter
+        frames++;
+        float newTime = glfwGetTime();
+        if (newTime - oldTime >= 1.0) {
+            std::cout << "FPS: " << frames << std::endl;
+            oldTime = newTime;
+            frames = 0;
+        }
+
     }
 
     glDeleteVertexArrays(1, &vao);
